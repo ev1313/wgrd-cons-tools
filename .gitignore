@@ -1,0 +1,14 @@
+__pycache__/
+out/
+out_ass/
+edat_files/
+spk_files/
+*.bin
+spk_out.txt
+.idea
+output.log
+venv/
+dist
+build
+*.spec
+*.egg-info
