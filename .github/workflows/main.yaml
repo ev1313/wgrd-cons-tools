@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [ master ]
 
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -19,11 +20,10 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.11
-
-    - run: pip install -r requirements.txt pyinstaller
-    - run: pyinstaller src/wgrd_cons_parsers/decode_ess.py
-    - run: pyinstaller src/wgrd_cons_parsers/encode_ess.py
-    - run: pyinstaller src/wgrd_cons_parsers/generate_sformat.py
-    - uses: actions/upload-artifact@v2
-      with:
-        path: dist/*
+      - run: pip install -r requirements.txt pyinstaller
+      - run: pyinstaller src/wgrd_cons_parsers/decode_ess.py
+      - run: pyinstaller src/wgrd_cons_parsers/encode_ess.py
+      - run: pyinstaller src/wgrd_cons_parsers/generate_sformat.py
+      - uses: actions/upload-artifact@v2
+        with:
+          path: dist/*
