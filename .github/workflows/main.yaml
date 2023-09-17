@@ -1,0 +1,29 @@
+name: Package Application with Pyinstaller
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ['windows-latest', 'ubuntu-latest, 'macos-latest']
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+
+    - run: pip install -r requirements.txt pyinstaller
+    - run: pyinstaller src/wgrd_cons_parsers/decode_ess.py
+    - run: pyinstaller src/wgrd_cons_parsers/encode_ess.py
+    - run: pyinstaller src/wgrd_cons_parsers/generate_sformat.py
+    - uses: actions/upload-artifact@v2
+      with:
+        path: dist/*
