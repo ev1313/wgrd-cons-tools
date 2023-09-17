@@ -16,14 +16,14 @@ jobs:
         os: ['windows-latest', 'ubuntu-latest']
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
         with:
           python-version: 3.11
       - run: pip install -r requirements.txt pyinstaller
-      - run: pyinstaller src/wgrd_cons_tools/decode_ess.py
-      - run: pyinstaller src/wgrd_cons_tools/encode_ess.py
-      - run: pyinstaller src/wgrd_cons_tools/generate_sformat.py
-      - uses: actions/upload-artifact@v2
+      - run: pyinstaller -F src/wgrd_cons_tools/decode_ess.py
+      - run: pyinstaller -F src/wgrd_cons_tools/encode_ess.py
+      - run: pyinstaller -F src/wgrd_cons_tools/generate_sformat.py
+      - uses: actions/upload-artifact@v3
         with:
           path: dist/*
