@@ -21,9 +21,9 @@ jobs:
         with:
           python-version: 3.11
       - run: pip install -r requirements.txt pyinstaller
-      - run: pyinstaller src/wgrd_cons_parsers/decode_ess.py
-      - run: pyinstaller src/wgrd_cons_parsers/encode_ess.py
-      - run: pyinstaller src/wgrd_cons_parsers/generate_sformat.py
+      - run: pyinstaller src/wgrd_cons_tools/decode_ess.py
+      - run: pyinstaller src/wgrd_cons_tools/encode_ess.py
+      - run: pyinstaller src/wgrd_cons_tools/generate_sformat.py
       - uses: actions/upload-artifact@v2
         with:
           path: dist/*
