@@ -21,9 +21,9 @@ For this we will need the following tools:
 So first we unpack the NDF\_Win.dat in the 72352 folder in GameData and the ZZ\_1.dat in the 58710 folder. The 58710 file contains a mpk file, we also want to unpack.
 
 ``` bash
-<edat> <Path to WGRD Game Data>/68335/72352/ZZ\_1.dat -o out/
-<edat> <Path to WGRD Game Data>/49964/ZZ\_1.dat -o out\_58710/
-<edat> out\_58710/allplatforms/sound/pack/mainsound.mpk -o out/allplatforms/sound/pack/
+edat.exe <Path to WGRD Game Data>/68335/72352/ZZ\_1.dat -o out/
+edat.exe <Path to WGRD Game Data>/49964/ZZ\_1.dat -o out\_58710/
+edat.exe out\_58710/allplatforms/sound/pack/mainsound.mpk -o out/allplatforms/sound/pack/
 ```
 
 Now you will find in the out folder the unpack dat file and a xml file containing something like the following:
@@ -49,13 +49,13 @@ This references every file in the edat file - if you add a line it will add the 
 First we take our wav file and run:
 
 ``` bash
-python3 -m wgrd\_cons\_parsers.encode\_ess <Path to wav file> -o out/allplatforms/sound/assets/sons/outgame/badge.ess
+encode\_ess.exe <Path to wav file> -o out/allplatforms/sound/assets/sons/outgame/badge.ess
 ```
 
 Afterwards we need to create the sformat file:
 
 ``` bash
-python3 -m wgrd\_cons\_parsers.generate\_sformat out/allplatforms/sound/assets/sons/outgame/badge.ess -o out/allplatforms/sound/pack/allplatforms/sound/assets/sons/outgame/badge.sformat
+generate\_sformat.exe out/allplatforms/sound/assets/sons/outgame/badge.ess -o out/allplatforms/sound/pack/allplatforms/sound/assets/sons/outgame/badge.sformat
 ```
 
 This will replace the existing sformat file.
@@ -65,7 +65,7 @@ This will replace the existing sformat file.
 As we now changed the sformat file inside the mpk file, we have to rebuild the mpk file:
 
 ``` bash
-python3 -m wgrd\_cons\_parsers.edat -p out/allplatforms/sound/pack/mainsound.mpk.xml -o out/allplatforms/sound/pack
+edat.exe -p out/allplatforms/sound/pack/mainsound.mpk.xml -o out/allplatforms/sound/pack
 ```
 
 **Note:**
@@ -85,7 +85,7 @@ Now we add the new files to the edat file:
 Afterwards we can rebuild the NDF\_Win.dat file:
 
 ```bash
-python3 -m wgrd\_cons\_parsers.edat -p out/ZZ\_1.dat.xml -o out/
+edat.exe -p out/ZZ\_1.dat.xml -o out/
 ```
 
 This can now be loaded into the game (copy it into the/68335/72352/ZZ\_1.dat) and the badge sound effect (click on your rank badge) should be replaced.
