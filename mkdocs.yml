@@ -1,2 +1,20 @@
 site_name: Wargame Red Dragon Tools
-theme: readthedocs
+theme:
+  name: readthedocs
+  locale: de
+  highlightjs: true
+  hljs_languages:
+    - cmake
+    - c
+    - cpp
+    - shell
+    - json
+    - bash
+    - yaml
+    - python
+plugins:
+  - search
+  - mermaid2:
+      version: '10.4.0'
+      javascript: https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs
+
