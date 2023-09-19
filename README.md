@@ -1,6 +1,6 @@
-# Wargame Red Dragon Tools
+# Wargame: Red Dragon Tools
 
-This is a collection of tools for modding Wargame: Red Dragon.
+This is a collection of tools for modding Wargame: Red Dragon, a game from Eugen Systems.
 These tools use the parsers found in wgrd-cons-parsers and usually
 work on the XML generated from them or just directly use them in Python.
 
