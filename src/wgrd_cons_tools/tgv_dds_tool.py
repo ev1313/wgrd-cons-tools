@@ -58,4 +58,3 @@ if __name__ == "__main__":
 
     outfile = open(os.path.join(args.output, os.path.basename(args.path) + ".dds"), "wb")
     stream_write_dds(outfile, width, height, format, dds_mipmaps)
-    pdb.set_trace()
