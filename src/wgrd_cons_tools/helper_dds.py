@@ -1,6 +1,6 @@
 from typing import IO
 
-from .utils import *
+from wgrd_cons_tools.utils import *
 
 
 def stream_write_dds(stream: IO[bytes], w: int, h: int, format: str, mipmaps: list[IO[bytes]]):

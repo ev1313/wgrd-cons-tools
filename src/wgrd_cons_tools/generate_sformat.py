@@ -2,8 +2,8 @@
 import sys
 import pdb
 
-from .ess import *
-from .sformat import *
+from wgrd_cons_tools.ess import *
+from wgrd_cons_tools.sformat import *
 
 import argparse
 

@@ -7,7 +7,7 @@ import sys
 import argparse
 import pathlib
 
-from .utils import *
+from wgrd_cons_tools.utils import *
 
 def initEncoder():
   num9 = 0

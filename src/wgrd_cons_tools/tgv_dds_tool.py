@@ -8,8 +8,8 @@ import argparse
 
 import xml.etree.ElementTree as ET
 
-from .utils import *
-from .helper_dds import *
+from wgrd_cons_tools.utils import *
+from wgrd_cons_tools.helper_dds import *
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

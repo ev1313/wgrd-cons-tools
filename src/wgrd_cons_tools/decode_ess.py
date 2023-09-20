@@ -6,7 +6,7 @@ import wave
 import argparse
 import pathlib
 
-from .utils import *
+from wgrd_cons_tools.utils import *
 
 
 def decodeBlock(f, num19, array4, num7):
