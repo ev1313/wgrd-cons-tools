@@ -94,6 +94,23 @@ This can now be loaded into the game (copy it into the/68335/72352/ZZ\_1.dat) an
 Only because you reference a new file here, the game will not automatically load it, in the cluster*.ndfbin files there is a list of loaded files.
 This is only necessary for **new** files though, in this case we replace existing files, which get referenced in the cluster of the main game.
 
+### Loops
+
+Some files use loops, especially weapon sounds. These can be set using Audacity the encode\_ess tool.
+
+To mark an area as a loop, open your sound file in Audacity and create [a label track](https://manual.audacityteam.org/man/label_tracks.html).
+
+Add a label from Selection and call this label "loop".
+
+You can export the Labels in Audacity in File -> Export -> Export Labels. This will produce a txt file, for example "labels.txt".
+
+Now when using encode\_ess, you can use the -l parameter for supplying the labels.txt:
+
+``` bash
+encode_ess.exe test.wav -l labels.txt -o test.ess
+```
+
+The generate\_sformat tool will also understand this.
 
 ### Limitations
 
@@ -102,9 +119,6 @@ There are a few unknowns in the sformat file:
  - unk4 This has the possible values (in the existing ingame files):
  	- 2, 4, 44, 112, 176, 736, 4096
  - the tool just assumes unk4 = 2
-
- - essUnk2:
-	 - This is probably the loopStart?
 
 - data:
 	- This is probably the amplitude envelope?
