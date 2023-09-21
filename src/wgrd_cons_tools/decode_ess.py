@@ -133,6 +133,8 @@ if __name__ == "__main__":
   parser.add_argument("path", type=pathlib.Path, help="path to the ess file")
   parser.add_argument("-o", "--output", type=pathlib.Path, default="test.ess.wav",
                            help="path to the output wav file")
+  parser.add_argument("-l", "--labels", type=pathlib.Path, default="test-labels.txt",
+                           help="path to the output Audacity labels")
   args = parser.parse_args()
 
   #print("Loading '%s'" % path)
@@ -144,22 +146,21 @@ if __name__ == "__main__":
   unk1 = read8(f)
   channelCount = read8(f)
   samplerate = read16b(f)
-  frameCount1 = read32b(f)
-  unk2 = read32b(f)
-  frameCount2 = read32b(f)
-  #print("ESS unk0=0x%08X unk1=0x%X channelCount=%d samplerate=%dHz frameCount1=%d unk2=0x%X frameCount2=%d" % (unk0, unk1, channelCount, samplerate, frameCount1, unk2, frameCount2))
+  frameCount = read32b(f)
+  loopStart = read32b(f)
+  loopEnd = read32b(f)
+
+  if args.labels:
+      labelfile = open(args.labels, "w")
+      labelfile.write(f"{loopStart / samplerate}\t{loopEnd / samplerate}\tloop\n")
+      labelfile.close()
+
+  #print("ESS unk0=0x%08X unk1=0x%X channelCount=%d samplerate=%dHz frameCount=%d loopStart=0x%X loopEnd=%d" % (unk0, unk1, channelCount, samplerate, frameCount, loopStart, loopEnd))
   assert(unk0 == 0x01000202)
 
   # These are mostly 0, I assume it's the number of bits
   assert(unk1 in [0, 1])
-
-  #FIXME: Many values, see sformat.py for more
-  #assert(unk2 in [0x0, 0xC0])
-
-  # These are mostly the same, but sometimes frameCount1 is higher?!
-  # Number of blocks seems to match frameCount1
-  # If this wasn't the case, I'd suspect that frameCount1 is the decoded length (including silence)
-  assert(frameCount1 >= frameCount2)
+  assert(frameCount >= loopEnd)
 
   if channelCount == 1:
     blockMaxFrameCount = 1024 // 1
@@ -177,10 +178,10 @@ if __name__ == "__main__":
   wav.setsampwidth(2)
   wav.setnchannels(channelCount)
   wav.setframerate(samplerate)
-  wav.setnframes(frameCount1)
+  wav.setnframes(frameCount)
 
   # Calculate number of blocks
-  blockCount = (frameCount1 + (blockMaxFrameCount - 1)) // blockMaxFrameCount
+  blockCount = (frameCount + (blockMaxFrameCount - 1)) // blockMaxFrameCount
   #print("Number of blocks: %d" % blockCount)
 
   # Store block offsets
@@ -195,7 +196,7 @@ if __name__ == "__main__":
     #print("%d / %d" % (blockIndex, blockCount))
     blockDataSize = blockOffsets[blockIndex + 1] - blockOffsets[blockIndex] - 20 * channelCount
 
-    blockFrameCount = min(frameCount1, blockMaxFrameCount)
+    blockFrameCount = min(frameCount, blockMaxFrameCount)
 
     blockOffset = blockOffsets[blockIndex]
     f.seek(dataOffset + blockOffset + 20 * channelCount)
@@ -216,4 +217,4 @@ if __name__ == "__main__":
 
     wav.writeframes(frameData)
 
-    frameCount1 -= blockFrameCount
+    frameCount -= blockFrameCount
