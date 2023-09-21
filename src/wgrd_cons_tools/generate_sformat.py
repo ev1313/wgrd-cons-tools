@@ -23,13 +23,13 @@ if __name__ == "__main__":
               unk0=0x6,
               isShort="true",
               channelCount=ess_header.channels,
-              unk3=ess_header.channels*0x200,
+              frameSize=ess_header.channels*0x200,
               samplerate=ess_header.samplerate,
               frameCount=ess_header.frameCount,
               unk4=2,
               essLength=len(essdata),
-              essUnk2=0,
-              frameCount2=ess_header.frameCount,
+              loopStart=ess_header.loopStart,
+              loopEnd=ess_header.loopEnd,
               data=None)
 
     sformatdata = SFormat.build(sformat)

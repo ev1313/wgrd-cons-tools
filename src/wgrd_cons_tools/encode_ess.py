@@ -185,6 +185,7 @@ def bitsToBytes(list):
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument("path", type=pathlib.Path, help="path to the wave file")
+  parser.add_argument("-l", "--labels", type=pathlib.Path, help="path to the audacity labels file")
   parser.add_argument("-o", "--output", type=pathlib.Path, default="test.ess",
                       help="path to the output ess file")
   args = parser.parse_args()
@@ -227,8 +228,23 @@ if __name__ == "__main__":
   write8(fo, channelCount)
   write16b(fo, samplerate)
   write32b(fo, frameCount)
-  write32b(fo, 0)
-  write32b(fo, frameCount)
+
+  # loop start and end
+  if not args.labels:
+    write32b(fo, 0)
+    write32b(fo, frameCount)
+  else:
+    labels = open(args.labels, "r").readlines()
+    for label in labels:
+      start, end, name = label.split("\t")
+      if name == "loop":
+        start = float(start) * samplerate
+        end = float(end) * samplerate
+
+        write32b(fo, int(start))
+        write32b(fo, int(end))
+      else:
+        print("Skipping label '%s'" % name)
 
   # Calculate number of blocks
   blockCount = (frameCount + (blockMaxFrameCount - 1)) // blockMaxFrameCount
