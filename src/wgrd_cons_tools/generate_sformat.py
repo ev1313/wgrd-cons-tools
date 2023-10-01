@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import sys
-import pdb
 
 from wgrd_cons_parsers.ess import *
 from wgrd_cons_parsers.sformat import *

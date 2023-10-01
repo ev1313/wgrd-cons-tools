@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import pdb
-
 import os
 import sys
 import argparse
@@ -9,6 +7,7 @@ import pathlib
 import sys
 
 def unpack_file(module, outpath, filepath):
+    return
     ret = os.system(f"python3 -m wgrd_cons_parsers.{module} -o '{outpath}' '{filepath}'")
     if ret != 0:
         print(f"failed at {filepath}")
@@ -18,7 +17,7 @@ def unpack_file(module, outpath, filepath):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("wgrd_path", type=pathlib.Path, help="path to the wgrd game files")
-    parser.add_argument("output_path", type=pathlib.Path, help="unpack directory", nargs='?', default="./out/")
+    parser.add_argument("-o", "--output_path", type=pathlib.Path, help="unpack directory", nargs='?', default="./out/")
 
     args = parser.parse_args()
 
@@ -30,18 +29,18 @@ if __name__ == "__main__":
                 #print()
                 #print(filepath)
 
-                #os.system(f"python3 -m wgrd_cons_parsers.edat -o '{outpath}' '{filepath}'")
+                os.system(f"python3 -m wgrd_cons_parsers.edat -o '{outpath}' '{filepath}'")
 
-    # we do not need full recursion, because there're no dat files in dats except mpk
+    # we do not need full recursion, because there're no dat files in dats except mpk/apk/ppk/etc.
     for root, dirs, files in os.walk(args.output_path):
         for file in files:
-            if file.endswith(".mpk"):
+            if file.endswith(".mpk") or file.endswith(".apk"):
                 filepath = os.path.join(root, file)
                 outpath = os.path.dirname(filepath)
                 #print(filepath)
                 #print(outpath)
 
-                #os.system(f"python3 -m wgrd_cons_parsers.edat -o '{outpath}' '{filepath}'")
+                os.system(f"python3 -m wgrd_cons_parsers.edat -o '{outpath}' '{filepath}'")
     # here all files are already unpacked
     for root, dirs, files in os.walk(args.output_path):
         for file in files:
