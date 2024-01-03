@@ -23,7 +23,7 @@ if __name__ == "__main__":
               isShort="true",
               channelCount=ess_header.channels,
               frameSize=ess_header.channels*0x200,
-              samplerate=ess_header.samplerate,
+              sampleRate=ess_header.samplerate,
               frameCount=ess_header.frameCount,
               unk4=2,
               essLength=len(essdata),
