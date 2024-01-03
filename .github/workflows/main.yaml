@@ -28,6 +28,8 @@ jobs:
       - run: pyinstaller -F src/wgrd_cons_tools/encode_ess.py
       - run: pyinstaller -F src/wgrd_cons_tools/unpack_wgrd.py
       - run: pyinstaller -F src/wgrd_cons_tools/generate_sformat.py
+      - run: pyinstaller -F src/wgrd_cons_tools/wgrd_patch_exe.py
+      - run: pyinstaller -F src/wgrd_cons_tools/edat_helper.py
       - run: pyinstaller -F src/wgrd_cons_tools/tgv_dds_tool.py
       - uses: actions/upload-artifact@v3
         with:
