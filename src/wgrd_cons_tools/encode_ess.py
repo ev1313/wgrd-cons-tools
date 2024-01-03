@@ -229,22 +229,24 @@ if __name__ == "__main__":
   write16b(fo, samplerate)
   write32b(fo, frameCount)
 
-  # loop start and end
-  if not args.labels:
-    write32b(fo, 0)
-    write32b(fo, frameCount)
-  else:
+  written_label = False
+  if args.labels:
     labels = open(args.labels, "r").readlines()
     for label in labels:
       start, end, name = label.split("\t")
-      if name == "loop":
+      if name.strip() == "loop":
         start = float(start) * samplerate
         end = float(end) * samplerate
 
         write32b(fo, int(start))
         write32b(fo, int(end))
+        written_label = True
       else:
         print("Skipping label '%s'" % name)
+  # loop start and end
+  if not written_label:
+    write32b(fo, 0)
+    write32b(fo, frameCount)
 
   # Calculate number of blocks
   blockCount = (frameCount + (blockMaxFrameCount - 1)) // blockMaxFrameCount
