@@ -10,7 +10,7 @@ if __name__ == "__main__":
                         help="path to the output Wargame3.exe")
     args = parser.parse_args()
 
-    position = 0x0151FE13
+    position = 0x01520213
 
     with open(args.output, "wb") as patched:
         with open(args.wgrd_exe, "rb") as original:
