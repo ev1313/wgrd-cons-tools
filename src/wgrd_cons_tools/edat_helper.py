@@ -34,9 +34,10 @@ if __name__ == "__main__":
                 for k, v in modded_edat["files"].items():
                     if k in original_edat["files"]:
                         if v != original_edat["files"][k]:
+                            print(k)
                             output_edat_file["files"][k] = v
-                        else:
-                            output_edat_file["files"][k] = v
+                        #else:
+                        #    output_edat_file["files"][k] = v
                 output_edat_files[file] = output_edat_file
 
     os.makedirs(args.output, exist_ok=True)
