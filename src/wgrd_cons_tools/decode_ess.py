@@ -131,13 +131,16 @@ def decodeBlock(f, num19, array4, num7):
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument("path", type=pathlib.Path, help="path to the ess file")
-  parser.add_argument("-o", "--output", type=pathlib.Path, default="test.ess.wav",
+  parser.add_argument("-o", "--output", type=str, default="",
                            help="path to the output wav file")
   parser.add_argument("-l", "--labels", type=pathlib.Path, default="test-labels.txt",
                            help="path to the output Audacity labels")
   args = parser.parse_args()
 
   #print("Loading '%s'" % path)
+
+  if not len(args.output):
+    args.output = os.path.basename(args.path) + ".wav"
 
   data = open(args.path, "rb").read()
   f = BytesIO(data)

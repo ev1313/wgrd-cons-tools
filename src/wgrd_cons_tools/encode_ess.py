@@ -186,12 +186,15 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument("path", type=pathlib.Path, help="path to the wave file")
   parser.add_argument("-l", "--labels", type=pathlib.Path, help="path to the audacity labels file")
-  parser.add_argument("-o", "--output", type=pathlib.Path, default="test.ess",
+  parser.add_argument("-o", "--output", type=str, default="",
                       help="path to the output ess file")
   args = parser.parse_args()
 
   #print("Loading '%s'" % path)
-
+  
+  if not len(args.output):
+    args.output = os.path.basename(args.path) + ".ess"
+  
   data = open(args.path, "rb").read()
   f = BytesIO(data)
 

@@ -9,9 +9,12 @@ import argparse
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("path", type=pathlib.Path, help="path to the ess file")
-    parser.add_argument("-o", "--output", type=pathlib.Path, default="test.sformat",
+    parser.add_argument("-o", "--output", type=str, default="",
                         help="path to the output sformat file")
     args = parser.parse_args()
+
+    if not len(args.output):
+        args.output = os.path.basename(args.path) + ".sformat"
 
     essfile = open(args.path, "rb")
     essdata = essfile.read()
