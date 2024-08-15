@@ -128,21 +128,7 @@ def decodeBlock(f, num19, array4, num7):
 
   return num19, array2
 
-if __name__ == "__main__":
-  parser = argparse.ArgumentParser()
-  parser.add_argument("path", type=pathlib.Path, help="path to the ess file")
-  parser.add_argument("-o", "--output", type=str, default="",
-                           help="path to the output wav file")
-  parser.add_argument("-l", "--labels", type=pathlib.Path, default="test-labels.txt",
-                           help="path to the output Audacity labels")
-  args = parser.parse_args()
-
-  #print("Loading '%s'" % path)
-
-  if not len(args.output):
-    args.output = os.path.basename(args.path) + ".wav"
-
-  data = open(args.path, "rb").read()
+def decode_ess(data, output, labels):
   f = BytesIO(data)
 
   unk0 = read32b(f)
@@ -153,8 +139,8 @@ if __name__ == "__main__":
   loopStart = read32b(f)
   loopEnd = read32b(f)
 
-  if args.labels:
-      labelfile = open(args.labels, "w")
+  if labels:
+      labelfile = open(labels, "w")
       labelfile.write(f"{loopStart / samplerate}\t{loopEnd / samplerate}\tloop\n")
       labelfile.close()
 
@@ -176,7 +162,7 @@ if __name__ == "__main__":
   else:
     assert(False)
 
-  fo = open(args.output, "wb")
+  fo = open(output, "wb")
   wav = wave.open(fo, 'wb')
   wav.setsampwidth(2)
   wav.setnchannels(channelCount)
@@ -221,3 +207,21 @@ if __name__ == "__main__":
     wav.writeframes(frameData)
 
     frameCount -= blockFrameCount
+
+if __name__ == "__main__":
+  parser = argparse.ArgumentParser()
+  parser.add_argument("path", type=pathlib.Path, help="path to the ess file")
+  parser.add_argument("-o", "--output", type=str, default="",
+                           help="path to the output wav file")
+  parser.add_argument("-l", "--labels", type=pathlib.Path, default="test-labels.txt",
+                           help="path to the output Audacity labels")
+  args = parser.parse_args()
+
+  #print("Loading '%s'" % path)
+
+  if not len(args.output):
+    args.output = os.path.basename(args.path) + ".wav"
+  
+  data = open(path, "rb").read()
+  decode_ess(data, args.output, args.labels)
+
