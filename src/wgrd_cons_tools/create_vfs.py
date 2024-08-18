@@ -24,7 +24,7 @@ def create_vfs(dat_file_paths: list[str], vfs_dict: dict[str, pathlib.Path] = No
         data = EDat.parse_file(filepath, _cons_xml_filesdictionary_parse_files=False, _cons_xml_filesdictionary_alignment=False, _cons_xml_filesdictionary_disable_checks=True)
         for vfspath, meta in data.files.items():
             vfs_dict.setdefault(vfspath, [])
-            vfs_dict[vfspath] += (os.path.abspath(filepath), meta.offset + data.offset_data, meta.size, meta.checksum, idx)
+            vfs_dict[vfspath] += [(os.path.abspath(filepath), meta.offset + data.offset_data, meta.size, meta.checksum, idx)]
             idx += 1
 
     return vfs_dict
