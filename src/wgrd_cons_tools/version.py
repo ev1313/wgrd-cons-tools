@@ -1,1 +1,1 @@
-version_string = "0.2.17"
+version_string = "0.2.18"
