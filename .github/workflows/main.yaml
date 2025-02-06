@@ -31,6 +31,6 @@ jobs:
       - run: pyinstaller -F src/wgrd_cons_tools/wgrd_patch_exe.py
       - run: pyinstaller -F src/wgrd_cons_tools/edat_helper.py
       - run: pyinstaller -F src/wgrd_cons_tools/tgv_dds_tool.py
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: dist/*
