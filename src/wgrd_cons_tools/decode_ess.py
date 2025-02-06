@@ -222,6 +222,6 @@ if __name__ == "__main__":
   if not len(args.output):
     args.output = os.path.basename(args.path) + ".wav"
   
-  data = open(path, "rb").read()
+  data = open(args.path, "rb").read()
   decode_ess(data, args.output, args.labels)
 
