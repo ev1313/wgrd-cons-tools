@@ -1,6 +1,61 @@
 from typing import IO
 
+from wgrd_cons_parsers.common import *
 from wgrd_cons_tools.utils import *
+
+from conshex import *
+from conshex.string import *
+
+# https://learn.microsoft.com/en-us/windows/win32/direct3ddds/dds-pixelformat
+DDSPixelFormat = Struct(
+        "dwSize" / Int32ul,
+        "dwFlags" / FlagsEnum(Int32ul, 
+                              DDSD_CAPS=0x1,
+                              DDSD_HEIGHT=0x2,
+                              DDSD_WIDTH=0x4,
+                              DDSCAPS_COMPLEX=0x8,
+                              DDSCAPS_TEXTURE=0x1000,
+                              DDSD_PIXELFORMAT=0x1000,
+                              DDSD_MIPMAPCOUNT=0x20000,
+                              DDSCAPS_MIPMAP=0x400000
+                              ),
+        "dwFourCC" / Const(b"DX10"),
+        "dwRGBBitCount" / Int32ul,
+        "dwRBitMask" / Int32ul,
+        "dwGBitMask" / Int32ul,
+        "dwBBitMask" / Int32ul,
+        "dwABitMask" / Int32ul,
+        )
+
+# https://learn.microsoft.com/en-us/windows/win32/direct3ddds/dds-header-dxt10
+
+DDSHeaderDXT10 = Struct(
+        "ddsFormat" / Int32ul,
+        "resourceDimension" / Int32ul,
+        "miscFlag" / Int32ul,
+        "arraySize" / Int32ul,
+        "miscFlags2" / Int32ul,
+        )
+
+# https://learn.microsoft.com/en-us/windows/win32/direct3ddds/dds-header
+DDSHeader = Struct(
+        "dwSize" / Int32ul,
+        "dwFlags" / Int32ul,
+        "dwHeight" / Int32ul,
+        "dwWidth" / Int32ul,
+        "dwPitchOrLinearSize" / Int32ul,
+        "dwDepth" / Int32ul,
+        "dwMipMapCount" / Int32ul,
+        "dwReserved1" / Bytes(48),
+        "ddspf" / DDSPixelFormat,
+        "dwCaps" / Int32ul,
+        "dwCaps1" / Int32ul,
+        "dwCaps2" / Int32ul,
+        "dwCaps3" / Int32ul,
+        "dwCaps4" / Int32ul,
+        "dwReserved2" / Int32ul,
+        "dxt10" / DDSHeaderDXT10,
+        )
 
 
 def stream_write_dds(stream: IO[bytes], w: int, h: int, format: str, mipmaps: list[IO[bytes]]):
@@ -16,7 +71,7 @@ def stream_write_dds(stream: IO[bytes], w: int, h: int, format: str, mipmaps: li
     DXGI_FORMAT_B8G8R8A8_UNORM_SRGB = 91
 
     # these are specific to the game
-    ddsFormats = {
+    ddsFormats = 
         "DXT1": (DXGI_FORMAT_BC1_UNORM, None),
         "DXT1_SRGB": (DXGI_FORMAT_BC1_UNORM_SRGB, None),
         "DXT5": (DXGI_FORMAT_BC3_TYPELESS, None),
@@ -85,4 +140,8 @@ def stream_write_dds(stream: IO[bytes], w: int, h: int, format: str, mipmaps: li
     # DDS mipmap order is different from TGV
     for mipmap_file in mipmaps:
         stream.write(mipmap_file.getbuffer())
+
+if __name__ == "__main__":
+    main = CommonMain(DDSHeader, "DDS")
+    main.main()
 
